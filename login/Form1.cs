@@ -22,7 +22,7 @@ namespace login
         private string alamat, query;
         public Form1()
         {
-            alamat = "server=localhost; database=db_vispro; username=root; password=12345;";
+            alamat = "server=localhost; database=db_mahasiswa; username=root; password=;";
             koneksi = new MySqlConnection(alamat);
 
             InitializeComponent();

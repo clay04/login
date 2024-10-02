@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using login;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
@@ -19,73 +20,15 @@ namespace login
         private MySqlCommand perintah;
         private DataSet ds = new DataSet();
         private string alamat, query;
-
-        private System.Windows.Forms.DataGridView dataGridView1;
-
         public FormMain()
         {
-            alamat = "server=localhost; database=db_mahasiswa; username=root; password=12345;";
+            alamat = "server=localhost; database=db_mahasiswa; username=root; password=;";
             koneksi = new MySqlConnection(alamat);
 
             InitializeComponent();
         }
 
-        private void FormMain_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (txtUsername.Text != "")
-                {
-                    query = string.Format("select * from tbl_pengguna where username = '{0}'", txtUsername.Text);
-                    ds.Clear();
-                    koneksi.Open();
-                    perintah = new MySqlCommand(query, koneksi);
-                    adapter = new MySqlDataAdapter(perintah);
-                    perintah.ExecuteNonQuery();
-                    adapter.Fill(ds);
-                    koneksi.Close();
-                    if (ds.Tables[0].Rows.Count > 0)
-                    {
-                        foreach (DataRow kolom in ds.Tables[0].Rows)
-                        {
-                            txtID.Text = kolom["id_pengguna"].ToString();
-                            txtPassword.Text = kolom["password"].ToString();
-                            txtNama.Text = kolom["nama_pengguna"].ToString();
-                            CBLevel.Text = kolom["level"].ToString();
-
-                        }
-                        txtUsername.Enabled = false;
-                        dataGridView1.DataSource = ds.Tables[0];
-                        btnSave.Enabled = false;
-                        btnUpdate.Enabled = true;
-                        btnDelete.Enabled = true;
-                        btnSearch.Enabled = false;
-                        btnClear.Enabled = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Data Tidak Ada !!");
-                        FormMain_Load(null, null);
-                    }
-
-                }
-                else
-                {
-                    MessageBox.Show("Data Yang Anda Pilih Tidak Ada !!");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
+        private void btnSave_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -121,7 +64,75 @@ namespace login
             }
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtUsername.Text != "" || txtID.Text != "" || txtNama.Text != "")
+                {
+                    // Buat query yang dinamis berdasarkan input
+                    string query = "SELECT * FROM tbl_pengguna WHERE 1=1";
+
+                    if (!string.IsNullOrEmpty(txtUsername.Text))
+                    {
+                        query += string.Format(" AND username LIKE '{0}%'", txtUsername.Text);
+                    }
+
+                    if (!string.IsNullOrEmpty(txtID.Text))
+                    {
+                        query += string.Format(" AND id_pengguna LIKE '{0}%'", txtID.Text);
+                    }
+
+                    if (!string.IsNullOrEmpty(txtNama.Text))
+                    {
+                        query += string.Format(" AND nama_pengguna LIKE '{0}%'", txtNama.Text);
+                    }
+
+                    ds.Clear();
+                    koneksi.Open();
+                    perintah = new MySqlCommand(query, koneksi);
+                    adapter = new MySqlDataAdapter(perintah);
+                    perintah.ExecuteNonQuery();
+                    adapter.Fill(ds);
+                    koneksi.Close();
+
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        foreach (DataRow kolom in ds.Tables[0].Rows)
+                        {
+                            txtID.Text = kolom["id_pengguna"].ToString();
+                            txtUsername.Text = kolom["username"].ToString();
+                            txtPassword.Text = kolom["password"].ToString();
+                            txtNama.Text = kolom["nama_pengguna"].ToString();
+                            CBLevel.Text = kolom["level"].ToString();
+                        }
+                        txtUsername.Enabled = false;
+                        txtID.Enabled = false;
+                        dataGridView1.DataSource = ds.Tables[0];
+                        btnSave.Enabled = false;
+                        btnUpdate.Enabled = true;
+                        btnDelete.Enabled = true;
+                        btnSearch.Enabled = false;
+                        btnClear.Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data Tidak Ada !!");
+                        FormMain_Load(null, null);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Masukkan ID, Username, atau Nama untuk mencari data!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnUpdate_Click_1(object sender, EventArgs e)
         {
             try
             {
