@@ -45,6 +45,7 @@
             this.btnLogout = new System.Windows.Forms.Button();
             this.CBLevel = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.btnPrint = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -202,11 +203,22 @@
             this.dataGridView1.Size = new System.Drawing.Size(781, 269);
             this.dataGridView1.TabIndex = 17;
             // 
+            // btnPrint
+            // 
+            this.btnPrint.Location = new System.Drawing.Point(638, 162);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(75, 23);
+            this.btnPrint.TabIndex = 18;
+            this.btnPrint.Text = "Print";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(870, 584);
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.CBLevel);
             this.Controls.Add(this.btnLogout);
@@ -252,5 +264,6 @@
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.ComboBox CBLevel;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button btnPrint;
     }
 }
